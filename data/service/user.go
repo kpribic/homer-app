@@ -158,11 +158,25 @@ func (us *UserService) LoginUser(username, password string) (string, model.Table
 		}
 
 		groups, err := us.LdapClient.GetGroupsOfUser(user["dn"])
+		//fmt.Println("LDAP returned groups: ", groups)
+
+		//AdminMode mode takes priority over UserMode when both are true
+		userData.IsAdmin = us.LdapClient.AdminMode
+
 		if err != nil {
 			logrus.Error("Couldn't get any group for user: ", username)
+			if us.LdapClient.UserMode == false && us.LdapClient.AdminMode == false {
+				return "", userData, errors.New("couldn't fetch any LDAP group and membership is required for login")
+			}
 		} else {
 			if heputils.ElementExists(groups, us.LdapClient.AdminGroup) {
 				userData.IsAdmin = true
+			} else if heputils.ElementExists(groups, us.LdapClient.UserGroup) {
+				userData.IsAdmin = false
+			} else {
+				if us.LdapClient.UserMode == false && us.LdapClient.AdminMode == false {
+					return "", userData, errors.New("admin or user group membership is required for login")
+				}
 			}
 		}
 

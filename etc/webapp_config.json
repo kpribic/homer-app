@@ -73,9 +73,11 @@
 		"bindpassword": "readonlypassword",
 		"userfilter": "(uid=%s)",
     "groupfilter": "(memberUid=%s)",
-    "admingroup": "admin",
+    "admingroup": "HOMER_admin",
     "adminmode": true,
-    "attributes": ["givenName", "sn", "mail", "uid"],
+    "usergroup": "HOMER_user",
+    "usermode": true,
+    "attributes": ["dn", "givenName", "sn", "mail", "uid"],
     "skipverify": true,
     "anonymous": false,
     "userdn": "uid=%s,ou=People,dc=example,dc=com"

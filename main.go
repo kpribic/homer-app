@@ -279,6 +279,8 @@ func main() {
 		ldapClient.Attributes = viper.GetStringSlice("ldap_config.attributes")
 		ldapClient.AdminGroup = viper.GetString("ldap_config.admingroup")
 		ldapClient.AdminMode = viper.GetBool("ldap_config.adminmode")
+		ldapClient.UserGroup = viper.GetString("ldap_config.usergroup")
+		ldapClient.UserMode = viper.GetBool("ldap_config.usermode")
 
 		if viper.IsSet("ldap_config.skiptls") {
 			ldapClient.SkipTLS = viper.GetBool("ldap_config.skiptls")
